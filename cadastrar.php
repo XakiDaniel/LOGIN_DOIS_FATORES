@@ -40,14 +40,14 @@
                 } else {
 
                     # Criptografar senha
-                    $senha_cripto = password_hash($dados['usuario'], PASSWORD_DEFAULT);
+                    $senha_cripto = password_hash($dados['senha_usuario'], PASSWORD_DEFAULT);
 
                     # Inserindo novo usuári
                     $query_usuario = "INSERT INTO userz (nome, usuario, senha_usuario) VALUES (:nome, :usuario, :senha_usuario)";
                     $cad_usuario = $conn->prepare($query_usuario);
                     $cad_usuario->bindParam(":nome", $dados['nome']);
                     $cad_usuario->bindParam(":usuario", $dados['usuario']);
-                    $cad_usuario->bindParam(":senha_usuario", $dados['senha_usuario']);
+                    $cad_usuario->bindParam(":senha_usuario", $senha_cripto);
                     $cad_usuario->execute();
 
                     if($cad_usuario->rowCount()) {
