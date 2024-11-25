@@ -16,7 +16,6 @@
 
 </head>
 <body>
-    <h2>Cadastrar Usuário</h2>
 
     <?php
         
@@ -24,48 +23,69 @@
         #var_dump($dados);
 
         if (isset($dados['SendCaduser'])) {
-            echo 'okkk';
-
-            # Criptrografar senha
-            $senha_cripto = password_hash($dados['senha_usuario'], PASSWORD_DEFAULT);
-
-
-            $query_usuario = "INSERT INTO userz (nome, usuario, senha_usuario) VALUES (:nome, :usuario, :senha_usuario)";
-            $cad_usuario = $conn->prepare($query_usuario);
-            $cad_usuario->bindParam(":nome", $dados['nome']);
-            $cad_usuario->bindParam(":usuario", $dados['usuario']);
-            $cad_usuario->bindParam(":senha_usuario", $senha_cripto);
-            $cad_usuario->execute();
-
-            if($cad_usuario->rowCount()) {
-                $_SESSION['msg'] = "<p style='color: green'>Usuário cadastrado</p>";
-
-
-                header("Location: index.php");
-                exit;
+            
+            # Verificando se os campos estão vazios
+            if(empty($dados['nome']) || empty($dados['usuario']) || empty($dados['senha_usuario'])) {
+                $_SESSION['msg'] = "<p class='error'>Todos os campos são obrigatórios!</p>";
             } else {
-                $_SESSION['msg'] = "<p style='color: #f00'>Erro no cadastro</p>";
+
+                # Verificando se o email já está cadastrado
+                $query_usuario_esistente = "SELECT id FROM userz WHERE usuario = :usuario LIMIT 1";
+                $check_usuario = $conn->prepare($query_usuario_esistente);
+                $check_usuario->bindParam(":usuario", $dados['usuario']);
+                $check_usuario->execute();
+
+                if($check_usuario->rowCount() > 0) {
+                    $_SESSION['msg'] = "<p class='error'>Esse email já está cadastrado!</p>";
+                } else {
+
+                    # Criptografar senha
+                    $senha_cripto = password_hash($dados['usuario'], PASSWORD_DEFAULT);
+
+                    # Inserindo novo usuári
+                    $query_usuario = "INSERT INTO userz (nome, usuario, senha_usuario) VALUES (:nome, :usuario, :senha_usuario)";
+                    $cad_usuario = $conn->prepare($query_usuario);
+                    $cad_usuario->bindParam(":nome", $dados['nome']);
+                    $cad_usuario->bindParam(":usuario", $dados['usuario']);
+                    $cad_usuario->bindParam(":senha_usuario", $dados['senha_usuario']);
+                    $cad_usuario->execute();
+
+                    if($cad_usuario->rowCount()) {
+                        $_SESSION['msg'] = "<p class='sucess'>Usuário cadastrado com sucesso!</p>";
+                        header("Location: index.php");
+                        exit;
+                    } else {
+                        $_SESSION['msg'] = "<p class='error'>Erro ao cadastrar usuário. Tente novamente.</p>";
+                    }
+                }
             }
         }
 
-
-
-        
-        if(isset($_SESSION['msg'])):
-            echo $_SESSION['msg'];
-            unset($_SESSION['msg']);
-		endif;
-			
-
     ?>
+    <div class="container">
 
-    <form action="" method="POST">
-        Nome: <input type="text" name="nome"><br>
-        Email: <input type="email" name="usuario"><br>
-        Senha: <input type="password" name="senha_usuario"><br>
-        <button type="submit" name="SendCaduser">Cadastrar</button>
-    </form>
+        <form action="" method="POST" class="form">
+            <h1>Cadastrar Usuário</h1>
+            
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" placeholder="Digite seu nome"><br>
 
-    <a href="index.php" class="btnc btn-cadastrar">Login</a>
+            <label for="email">Email:</label>
+            <input type="email" name="usuario" name="nome" placeholder="Digite seu email"><br>
+            
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha_usuario" name="nome" placeholder="Digite sua senha"><br>
+            
+            <input type="submit" name="SendCaduser" value="Cadastrar">
+            <a href="index.php" class="btnc btn-cadastrar">Login</a>
+            <?php 
+                if(isset($_SESSION['msg'])):
+                    echo $_SESSION['msg'];
+                    unset($_SESSION['msg']);
+                endif;
+            ?>
+        </form>
+    </div>
+
 </body>
 </html>

@@ -7,11 +7,11 @@
     
     # Recebendo a chave 
     $chave_recuperar_senha = filter_input(INPUT_GET, 'chave', FILTER_DEFAULT);
-    var_dump($chave_recuperar_senha);
-    echo '<hr>';
+    #var_dump($chave_recuperar_senha);
+    #echo '<hr>';
 
     if(empty($chave_recuperar_senha)) {
-        $_SESSION['msg'] = "<p style='color: #f00'>Erro: Chave inválida !</p>";
+        $_SESSION['msg'] = "<p class='error'>Erro: Chave inválida !</p>";
         header("Location: index.php");
         exit;
     } else {
@@ -23,7 +23,7 @@
 
         if($result_usuario->rowCount() === 0) {
             
-            $_SESSION['msg'] = "<p style='color: #f00'>Erro: Chave inválida !</p>";
+            $_SESSION['msg'] = "<p class='error'>Erro: Chave inválida!</p>";
             header("Location: index.php");
             exit;
         } else {
@@ -37,17 +37,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./assests/css/style.css">
+    <title>Atualizar Senha</title>
 </head>
 <body>
-    <h1>Atualizar senha</h1>
+    
     <?php 
 
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(!empty($dados['SendNovaSenha'])) {
-            var_dump($dados);
-            echo '<hr>';
+            #var_dump($dados);
+            #echo '<hr>';
 
             # Criptrografando senha
             $senha_usuario = password_hash($dados['senha_usuario'], PASSWORD_DEFAULT);
@@ -62,29 +63,34 @@
             $editar_usuario->execute();
 
             if($editar_usuario) {
-                $_SESSION['msg'] = "<p style='color: green'>Senha Atualizada com sucesso!</p>";
+                $_SESSION['msg'] = "<p class='sucess'>Senha Atualizada com sucesso!</p>";
                 header("Location: index.php");
                 exit;
             } else {
-                $_SESSION['msg'] = "<p style='color: #f00'>Erro: Tente novamente !</p>";
+                $_SESSION['msg'] = "<p class='error'>Erro: Tente novamente !</p>";
             }
 
         }
 
 
-        if(isset($_SESSION['msg'])):
-            echo $_SESSION['msg'];
-            unset($_SESSION['msg']);
-		endif;
     ?>
 
-    <form action="" method="POST">
+    <div class="container">
 
-        <label for="">Senha</label>
-        <input type="password" name="senha_usuario"><br>
-        <input type="submit" value="Atualizar" name="SendNovaSenha">
-    </form>
+        <form action="" method="POST" class="form">
+            
+            <label for="">Senha</label>
+            <input type="password" name="senha_usuario" placeholder="Nova senha"><br>
+            <input type="submit" value="Atualizar" name="SendNovaSenha">
+            <p class="lembrou">lembrou a senha ? <a href="index.php" class="lembrou-btn">clique aqui</a> para logar</p>
+            <?php 
+                if(isset($_SESSION['msg'])):
+                    echo $_SESSION['msg'];
+                    unset($_SESSION['msg']);
+                endif;
+            ?>
+        </form>
+    </div>
 
-    lembrou a senha ? <a href="index.php">clique aqui</a> para logar
 </body>
 </html>

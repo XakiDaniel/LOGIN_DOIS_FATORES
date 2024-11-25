@@ -23,7 +23,7 @@
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         if(!empty($dados['ValCodigo'])) {
-            var_dump($dados);
+            #var_dump($dados);
 
             # Recuperando os dados no banco de dados
 			$query_usuario = "SELECT id, nome, usuario, senha_usuario 
@@ -58,7 +58,7 @@
                 exit;
 
             } else {
-                $_SESSION['msg'] = "<p style='color: #f00;'>Erro: Código inválido</p>";
+                $_SESSION['msg'] = "<p class='error'>Erro: Código inválido</p>";
                 header('Location: validar_codigo.php');
                 exit;
             }
@@ -67,8 +67,8 @@
 
 
     <div class="container">
-		<form action="" method="POST">
-			<h2>Digite o código enviado no e-mail cadastrado</h2>
+		<form action="" method="POST" class="form">
+			<h1>Digite o código enviado no e-mail cadastrado</h1>
 			<label for="">Código</label>
 		    <input type="number" name="codigo_autenticacao" placeholder="Digite o Código"><br><br>
 

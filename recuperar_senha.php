@@ -13,16 +13,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assests/css/style.css">
     <title>Recuperar Senha</title>
 </head>
 <body>
-    <h1>Recuperar a Senha</h1>
     <?php 
 
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         
         if(!empty($dados['SendRecupSenha'])) {
-            var_dump($dados);
+            #var_dump($dados);
 
             # Verificar se existe usuário no banco de dados 
             $query_usuario = "SELECT id, nome, usuario FROM userz WHERE usuario = :usuario LIMIT 1";
@@ -34,13 +34,13 @@
             if ($result_usuario->rowCount() != 0) {
                 // Recupera os dados do usuário como array associativo
                 $row_usuario = $result_usuario->fetch(PDO::FETCH_ASSOC);
-                var_dump($row_usuario);
-                echo '<hr>';
+                #var_dump($row_usuario);
+                #echo '<hr>';
             
                 // Gerando chave para recuperar a senha
                 $chave_recuperar_senha = password_hash($row_usuario['id'] . $row_usuario['usuario'], PASSWORD_DEFAULT); // Corrigido
-                var_dump($chave_recuperar_senha);
-                echo '<hr>';
+                #var_dump($chave_recuperar_senha);
+                #echo '<hr>';
                 
             
                 // Atualizando o banco com a chave gerada
@@ -54,8 +54,8 @@
 
                     # Gerando o link para recuperar senha 
                     $link = "http://localhost/LOGIN_DOIS_FATORES/atualizar_senha.php?chave=$chave_recuperar_senha";
-                    var_dump($link);
-                    echo '<hr>';
+                    #var_dump($link);
+                    #echo '<hr>';
 
                     # Incluindo autoload PhpMailer somente quando o email estiver correto;
 					require './lib/vendor/autoload.php';
@@ -81,10 +81,17 @@
 						// $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
 						$mail->Port       = 1025; #587                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 						
+                        # Verificando se o email é válido antes de adicionar
+						if(filter_var($row_usuario['usuario'], FILTER_VALIDATE_EMAIL)) {
+							$mail->addAddress($row_usuario['usuario'], $row_usuario['nome']); // Adiciona o destinatário
+						} else {
+							$_SESSION['msg'] = "<p class='error'>Erro: Endereço de e-mail inválido</p>";
+						}
 
+                        
 						//Recipients
 						$mail->setFrom('desenvolvimentophpteste@gmail.com', 'Atendimento');
-						$mail->addAddress($row_usuario['usuario'], $row_usuario['nome']);     //Add a recipient
+						#$mail->addAddress($row_usuario['usuario'], $row_usuario['nome']);     //Add a recipient (ANTES ERA ASSIM TALVEZ APAGAR)
 						
 
 						//Content
@@ -96,47 +103,44 @@
 
 						$mail->send();
     					
-                        $_SESSION['msg'] = "<p style='color: green;'>Email de recuperação enviado com sucesso</p>";
+                        $_SESSION['msg'] = "<p class='sucess'>Email de recuperação enviado com sucesso</p>";
 						header("Location: index.php");
 						exit;
 
 
 					} catch (Exception $e) {
 						#echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-						$_SESSION['msg'] = "<p style='color: #f00;'>Erro: Email não enviado</p>";
+						$_SESSION['msg'] = "<p class='error'>Erro: Email não enviado</p>";
 					}
 
                 } else {
-                    $_SESSION['msg'] = "<p style='color: #f00'>Erro tente novamente !</p>";
+                    $_SESSION['msg'] = "<p class='error'>Erro tente novamente !</p>";
                 }
             } else {
-                $_SESSION['msg'] = "<p style='color: #f00'>Usuário não encontrado !</p>";
+                $_SESSION['msg'] = "<p class='error'>Usuário não encontrado !</p>";
             }
             
 
         }
-
-
-
-
-
-
-
-
-        if(isset($_SESSION['msg'])):
-            echo $_SESSION['msg'];
-            unset($_SESSION['msg']);
-		endif;
-
     ?>
 
+    <div class="container">
+        <form action="" method="POST" class="form">
+            <h1>Recuperar a Senha</h1>
+            <label for="Email">Email</label>
+            <input type="text" name="usuario" placeholder="Digite seu email"><br>
+            <input type="submit" name="SendRecupSenha" value="Recuperar">
+            <p class="lembrou">lembrou a senha ? <a href="index.php" class="lembrou-btn">clique aqui</a> para logar</p>
 
-    <form action="" method="POST">
-        <label for="Email">Email</label>
-        <input type="text" name="usuario"><br>
-        <input type="submit" name="SendRecupSenha" value="Recuperar">
-    </form>
+            <?php 
+                if(isset($_SESSION['msg'])):
+                    echo $_SESSION['msg'];
+                    unset($_SESSION['msg']);
+                endif;
+            ?>
 
-    lembrou a senha ? <a href="index.php">clique aqui</a> para logar
+        </form>
+    </div>
+
 </body>
 </html>

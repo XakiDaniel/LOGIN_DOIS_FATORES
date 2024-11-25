@@ -15,7 +15,7 @@
 <html>
 <head>
 	<title>Login</title>
-	<!-- <link rel="stylesheet" href="./assests/css/style.css"> -->
+	<link rel="stylesheet" href="./assests/css/style.css">
 </head>
 <body>
 	
@@ -89,10 +89,18 @@
 						// $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
 						$mail->Port       = 1025; #587                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 						
+						# Verificando se o email é válido antes de adicionar
+						if(filter_var($row_usuario['usuario'], FILTER_VALIDATE_EMAIL)) {
+							$mail->addAddress($row_usuario['usuario'], $row_usuario['nome']); // Adiciona o destinatário
+						} else {
+							$_SESSION['msg'] = "<p class='error'>Erro: Endereço de e-mail inválido 777</p>";
+							header("Location: index.php"); // Redireciona de volta ao login em caso de erro
+							exit;
+						}
 
 						//Recipients
 						$mail->setFrom('desenvolvimentophpteste@gmail.com', 'Atendimento');
-						$mail->addAddress($row_usuario['usuario'], $row_usuario['nome']);     //Add a recipient
+						#$mail->addAddress($row_usuario['usuario'], $row_usuario['nome']);     //Add a recipient (ANTES ERA ASSIM TALVEZ APAGAR)
 						
 
 						//Content
@@ -110,15 +118,15 @@
 
 					} catch (Exception $e) {
 						#echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-						$_SESSION['msg'] = "<p style='color: #f00;'>Erro: Email não enviado</p>";
+						$_SESSION['msg'] = "<p class='error'>Error: Email não enviado</p>";
 					}
 
 				} else {
-					$_SESSION['msg'] = "<p style='color: #f00;'>Erro: Usuário ou senha invalidos</p>";
+					$_SESSION['msg'] = "<p class='error'>Erro: Usuário ou senha inválidos</p>";
 				}
 
 			} else {
-				$_SESSION['msg'] = "<p style='color: #f00;'>Erro: Usuário ou senha invalidos</p>";
+				$_SESSION['msg'] = "<p class='error'>Erro: Usuário ou senha invalidos</p>";
 			}
 		}
 
@@ -127,25 +135,26 @@
 	?>
 
 	<div class="container">
-		<form action="" method="POST">
-			<h2>Login dois Fatores</h2>
-			<label for="">Usuário</label>
+		<form action="" method="POST" class="form">
+			<h1>Login dois Fatores</h1>
+			<label for="">Usuário:</label>
 			<input type="text" name="usuario" placeholder="Digite o Usuário"><br><br>
 			
-			<label for="">Senha</label>
-			<input type="password" name="senha_usuario" placeholder="Digite a Senha"><br><br>
+			<label for="senha">Senha:</label>
+			<input type="password" name="senha_usuario" placeholder="Digite a Senha" class="custom-placeholder"><br><br>
 			
-			<input type="submit" name="SendLogin" value="entrar"><br>
+			<input type="submit" name="SendLogin" value="entrar" class="custom-placeholder"><br>
+			
+			
+			<a href="cadastrar.php" class="btn-cadastrar btnc">Cadastrar conta</a>
+			<a href="recuperar_senha.php" class="btn-recuperar btnc">Esqueceu a senha ?</a>
+
 			<?php 
 				if(isset($_SESSION['msg'])):
 					echo $_SESSION['msg'];
 					unset($_SESSION['msg']);
 				endif;
 			?>
-			
-			<a href="cadastrar.php" class="btn-cadastrar btnc">Cadastrar conta</a>
-			<a href="recuperar_senha.php" class="btn-recuperar btnc">Esqueceu a senha ?</a>
-
 		</form>
 		
 
@@ -153,10 +162,10 @@
 
 
 	
-	<div class="user-info">
+	<!-- <div class="user-info">
         <h3>Usuário Teste</h3>
         <p>Nome: adm@gmail.com</p>
         <p>Senha: 12356</p>
-    </div>
+    </div> -->
 </body>
 </html>

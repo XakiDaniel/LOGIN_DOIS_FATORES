@@ -45,8 +45,38 @@ input {
 	outline: none;
 	border: none;
 }
+
 .credenciais {
 	color: #fff;
 	background: #01a3a4;
 	padding: 25px;
 }
+
+/* Estilo para o placeholder */
+input::placeholder {
+	color: blue !important; /* Define a cor azul */
+	opacity: 1; /* Garante visibilidade */
+	font-family: "Arial", sans-serif; /* Fonte personalizada */
+	font-size: 16px; /* Tamanho da fonte */
+	font-weight: bold; /* Peso da fonte */
+  }
+  .custom-placeholder::placeholder {
+	color: blue !important;
+  }
+  /* Compatibilidade com navegadores */
+  input::-webkit-input-placeholder {
+	color: blue !important; /* Chrome, Safari */
+  }
+  
+  input::-moz-placeholder {
+	color: blue !important; /* Firefox 19+ */
+  }
+  
+  input:-ms-input-placeholder {
+	color: blue !important; /* IE 10+ */
+  }
+  
+  input:-moz-placeholder {
+	color: blue !important; /* Firefox 4-18 */
+  }
+  
