@@ -7,17 +7,15 @@
 	// use PHPMailer\PHPMailer\SMTP;
 	use PHPMailer\PHPMailer\Exception;
 	
+	require_once 'config.php';
 	require_once 'conexao.php';
-
-	# Definindo um fuso horário padrão
-	date_default_timezone_set('America/Sao_Paulo');
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<link rel="stylesheet" href="./assests/css/style.css">
+	<title>Login</title>
+	<!-- <link rel="stylesheet" href="./assests/css/style.css"> -->
 </head>
 <body>
 	
@@ -137,14 +135,19 @@
 			<label for="">Senha</label>
 			<input type="password" name="senha_usuario" placeholder="Digite a Senha"><br><br>
 			
-			<input type="submit" value="Entrar" name="SendLogin"><br>
+			<input type="submit" name="SendLogin" value="entrar"><br>
 			<?php 
 				if(isset($_SESSION['msg'])):
 					echo $_SESSION['msg'];
 					unset($_SESSION['msg']);
 				endif;
 			?>
+			
+			<a href="cadastrar.php" class="btn-cadastrar btnc">Cadastrar conta</a>
+			<a href="recuperar_senha.php" class="btn-recuperar btnc">Esqueceu a senha ?</a>
+
 		</form>
+		
 
 	</div>
 

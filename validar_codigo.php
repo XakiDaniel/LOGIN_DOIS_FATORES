@@ -1,6 +1,8 @@
 <?php 
     session_start();
     ob_start(); # Limpando o buffer de saida
+
+    require_once 'config.php';
     require_once 'conexao.php';
 
 	# Definindo um fuso horário padrão

@@ -3,8 +3,7 @@
     ob_start(); # Limpando o buffer de saida
     
 
-	# Definindo um fuso horário padrão
-	date_default_timezone_set('America/Sao_Paulo');
+	require_once 'config.php';
 
     if((!isset($_SESSION['id'])) and (!isset($_SESSION['usuario'])) and (!isset($_SESSION['codigo_autenticacao']))) {
         $_SESSION['msg'] = "<p style='color: #f00;'>Erro: Você precisa está logado para acessar o sistema</p>";

@@ -1,4 +1,4 @@
-* {
+/* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -102,6 +102,7 @@ button {
     width: 100%;
     padding: 12px;
     margin-top: 20px;
+    margin-bottom: 20px;
     border: none;
     border-radius: 6px;
     background-color: #007bff;
@@ -200,6 +201,8 @@ header h1 {
     gap: 15px;
 }
 
+
+
 .header-btns button {
     background-color: #3498db;
     color: white;
@@ -237,3 +240,21 @@ header h1 {
     color: #7f8c8d;
 }
 
+.btnc  {
+    display: inline-block;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+}
+
+
+.btn-cadastrar {
+    background-color: green;
+}
+
+.btn-recuperar {
+    background-color: orange;
+}  

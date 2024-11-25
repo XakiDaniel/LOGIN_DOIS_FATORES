@@ -1,9 +1,9 @@
 <?php 
 
-	$db_host = "localhost";
-	$db_user = "root";
-	$db_pass = "";
-	$db_name = "xdb";
+	$db_host = HOST;
+	$db_user = USER;
+	$db_pass = PASS;
+	$db_name = DBNAME;
 
 
 	try {
