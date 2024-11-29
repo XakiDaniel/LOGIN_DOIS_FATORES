@@ -2,16 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #2d3436;
 }
 
-
 body {
+    background-color: #2d3436;
     font-family: Arial, sans-serif;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 0;
+    display: block;
 }
 
 .container {
@@ -19,7 +17,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 .form {
@@ -50,54 +48,53 @@ body {
     margin-bottom: 15px;
     border: 1px solid #007bff;
     border-radius: 4px;
-    color: #fff;
+    color: #007bff;
 }
 
 input[type="submit"] {
-    background-color: #007bff; /* Cor de fundo */
-    color: white; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
-    padding: 10px 15px; /* Espaçamento interno */
-    border-radius: 4px; /* Bordas arredondadas */
-    cursor: pointer; /* Mostra o cursor de "mãozinha" ao passar */
-    font-size: 16px; /* Tamanho do texto */
-    transition: background-color 0.3s ease; /* Transição suave para hover */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3; /* Cor ao passar o mouse */
+    background-color: #0056b3;
 }
 
 input[type="submit"]:active {
-    background-color: #004080; /* Cor ao pressionar o botão */
+    background-color: #004080;
 }
 
 input::placeholder {
-	color: #fff !important; /* Define a cor azul */
-	opacity: 1; /* Garante visibilidade */
-	font-family: "Arial", sans-serif; /* Fonte personalizada */
-	font-size: 16px; /* Tamanho da fonte */
-	font-weight: bold; /* Peso da fonte */
-  }
-  .custom-placeholder::placeholder {
-	color: #fff !important;
-  }
-  /* Compatibilidade com navegadores */
-  input::-webkit-input-placeholder {
-	color: #fff !important; /* Chrome, Safari */
-  }
-  
-  input::-moz-placeholder {
-	color: #fff !important; /* Firefox 19+ */
-  }
-  
-  input:-ms-input-placeholder {
-	color: #fff !important; /* IE 10+ */
-  }
-  
-  input:-moz-placeholder {
-	color: #fff !important; /* Firefox 4-18 */
-  }
+    color: #007bff !important;
+    opacity: 1;
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.custom-placeholder::placeholder {
+    color: #007bff !important;
+}
+
+/* Compatibilidade com navegadores */
+input::-webkit-input-placeholder {
+    color: #007bff !important;
+}
+input::-moz-placeholder {
+    color: #007bff !important;
+}
+input:-ms-input-placeholder {
+    color: #007bff !important;
+}
+input:-moz-placeholder {
+    color: #007bff !important;
+}
 
 .btnc {
     background-color: red;
@@ -116,13 +113,14 @@ input::placeholder {
     background-color: #27ae60;
 }
 
-.btn-cadastrar:hover{
+.btn-cadastrar:hover {
     background-color: #2ecc71;
 }
 
 .btn-recuperar {
     background-color: #d35400;
 }
+
 .btn-recuperar:hover {
     background-color: #e67e22;
 }
@@ -151,7 +149,50 @@ input::placeholder {
     padding: 10px;
 }
 
-.lembrou-btn  {
+.lembrou-btn {
     text-decoration: none;
     color: #fff;
 }
+
+
+/* Style the navigation menu */
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+    position: relative;
+  }
+  
+  /* Hide the links inside the navigation menu (except for logo/home) */
+  .topnav #myLinks {
+    display: none;
+  }
+  
+  /* Style navigation menu links */
+  .topnav a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+  }
+  
+  /* Style the hamburger menu */
+  .topnav a.icon {
+    background: black;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  /* Add a grey background color on mouse-over */
+  .topnav a:hover {
+    /* background-color: #ddd; */
+    /* color: black; */
+  }
+  
+  /* Style the active link (or home/logo) */
+  .active {
+    background-color: #04AA6D;
+    color: white;
+  }

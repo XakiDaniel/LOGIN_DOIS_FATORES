@@ -5,5 +5,6 @@ CREATE TABLE userz(
 	senha_usuario VARCHAR(255) NOT NULL,
 	chave_recuperar_senha VARCHAR(255) NULL,
 	codigo_autenticacao INT NULL,
-	data_codigo_autenticacao DATETIME NULL
+	data_codigo_autenticacao DATETIME NULL,
+	dt_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
